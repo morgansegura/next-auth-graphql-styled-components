@@ -1,65 +1,55 @@
+import React, { useState } from 'react'
 import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import { useAuth } from 'lib/auth.js'
+import { Authenticate } from 'components/forms'
+import { SignOut } from 'components/inputs'
+
+// const FeedQuery = gql`
+// 	{
+// 		episodeFeed(first: 50) {
+// 			id
+// 			title
+// 			audio
+// 			podcast {
+// 				title
+// 			}
+// 		}
+// 	}
+// `
+
+const EpisodeFeed = () => {
+	// const { data } = useQuery(FeedQuery)
+	// const { signOut } = useAuth()
+	return (
+		<div>
+			{/* <h1>Episode Feed</h1>
+			<ul>
+				{data?.episodeFeed.map(v => {
+					return <li key={v.id}>{v.title}</li>
+				})}
+			</ul>
+       */}
+			<SignOut label='Sign Out' />
+			<p>You are logged in</p>
+		</div>
+	)
+}
 
 export default function Home() {
-  return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+	const { isSignedIn } = useAuth()
+	return (
+		<div>
+			<Head>
+				<title>GRANDcast.FM</title>
+				<link rel='icon' href='/favicon.ico' />
+			</Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+			<main>
+				<h1>GRANDcast.FM</h1>
 
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+				{!isSignedIn() && <Authenticate />}
+				{isSignedIn() && <EpisodeFeed />}
+			</main>
+		</div>
+	)
 }
