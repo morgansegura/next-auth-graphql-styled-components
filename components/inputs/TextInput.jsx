@@ -1,7 +1,14 @@
 import { useState, useEffect, forwardRef } from 'react'
 import { TextField } from 'styles/Form'
 
-const TextInput = forwardRef(({ label, type, ...rest }, ref) => {
+const TextInput = ({
+	label,
+	register,
+	required = false,
+	watch,
+	name,
+	...rest
+}) => {
 	const [value, setValue] = useState('')
 	const [focus, setFocus] = useState(false)
 	const [blur, setBlur] = useState(true)
@@ -12,7 +19,7 @@ const TextInput = forwardRef(({ label, type, ...rest }, ref) => {
 	}
 
 	const onBlur = e => {
-		if (value.length > 0) {
+		if (watch(name).length > 0) {
 			setFocus(true)
 		} else {
 			setFocus(false)
@@ -22,21 +29,18 @@ const TextInput = forwardRef(({ label, type, ...rest }, ref) => {
 
 	return (
 		<>
-			<TextField
-				focus={focus}
-				onKeyPress={e => setValue(e.target.value)}
-				blur={blur}
-				ref={ref}>
+			<TextField focus={focus} blur={blur}>
 				<div>{label}</div>
 				<input
-					type={type}
+					name={name}
 					onFocus={onFocus}
 					onBlur={onBlur}
+					{...register(name, { required })}
 					{...rest}
 				/>
 			</TextField>
 		</>
 	)
-})
+}
 
 export default TextInput

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
 import { useAuth } from 'lib/auth.js'
-import { Authenticate } from 'components/forms'
+import { SigninForm } from 'components/forms'
 import { SignOut } from 'components/inputs'
 
 // const FeedQuery = gql`
@@ -19,7 +19,7 @@ import { SignOut } from 'components/inputs'
 
 const EpisodeFeed = () => {
 	// const { data } = useQuery(FeedQuery)
-	// const { signOut } = useAuth()
+	const { signOut } = useAuth()
 	return (
 		<div>
 			{/* <h1>Episode Feed</h1>
@@ -46,8 +46,8 @@ export default function Home() {
 
 			<main>
 				<h1>GRANDcast.FM</h1>
-
-				{!isSignedIn() && <Authenticate />}
+				{console.log('signed in', isSignedIn())}
+				{!isSignedIn() && <SigninForm />}
 				{isSignedIn() && <EpisodeFeed />}
 			</main>
 		</div>
