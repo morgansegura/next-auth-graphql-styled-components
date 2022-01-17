@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import Router, { useRouter } from 'next/router'
-// import { roleType, handleLogout } from 'utils/auth'
+import { useAuth } from '@lib/auth'
 // import NProgress from 'nprogress'
-import { Button } from 'components/core'
+import { Button } from '@components/core'
 import { Container } from '@styles/Container'
 import { Logo, Menu, Nav, NavItem, Header as Wrapper } from '@styles/Header'
 
@@ -19,6 +19,8 @@ export default function Header({ user }) {
 		return router.pathname === route
 	}
 
+	const { isSignedIn, signOut } = useAuth()
+
 	return (
 		<Container>
 			<Wrapper>
@@ -29,7 +31,7 @@ export default function Header({ user }) {
 						</a>
 					</Link>
 					<Nav>
-						{user ? (
+						{isSignedIn() ? (
 							<>
 								<Link href='/cart'>
 									<a>
@@ -58,19 +60,19 @@ export default function Header({ user }) {
 								<Button
 									size='xs'
 									theme='primary'
-									onClick={handleLogout}>
-									Logout
+									onClick={() => signOut()}>
+									Sign Out
 								</Button>
 							</>
 						) : (
 							<>
-								<Link href='/signup'>
+								<div>
 									<a>
 										<NavItem active={isActive('/signup')}>
 											Signup
 										</NavItem>
 									</a>
-								</Link>
+								</div>
 								<Button
 									size='xs'
 									theme='primary'

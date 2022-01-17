@@ -14,11 +14,6 @@ import { ErrorList } from '@styles/Form'
 import { toast } from 'react-toastify'
 
 export const LoginForm = () => {
-	const [formType, setFormType] = useState(false)
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
-	const [message, setMessage] = useState('')
-
 	const { signIn } = useAuth()
 
 	const {
@@ -32,21 +27,18 @@ export const LoginForm = () => {
 		toast(message)
 	}
 
-	const onChange = (label, e) => {
-		const value = e.target.value
-		console.log(value)
-		if (label === 'username') {
-			setUsername(value)
-		}
-		if (label === 'password') {
-			setPassword(value)
-		}
-	}
-
 	const onSubmit = () => {
-		// e.preventDefault()
-		signIn({ username, password }).then(result => {
-			setMessage(ErrorMessage(result.errors))
+		signIn({
+			email: watch('email'),
+			password: watch('password')
+		}).then(result => {
+			if (result.errors.length) {
+				toastErrors(
+					<ErrorList>
+						<p>Invalid email or password!</p>
+					</ErrorList>
+				)
+			}
 		})
 	}
 
@@ -56,10 +48,28 @@ export const LoginForm = () => {
 				<h3>Sign In</h3>
 			</FormTitle>
 			<AuthForm onSubmit={handleSubmit(onSubmit)}>
-				{errors.username && errors.username?.type === 'required'
+				<TextInput
+					type='email'
+					name='email'
+					label='email'
+					register={register}
+					required
+					watch={watch}
+					// onChange={e => setUsername(e.target.value)}
+				/>
+				<TextInput
+					type='password'
+					name='password'
+					label='password'
+					register={register}
+					required
+					watch={watch}
+					// onKeyUp={e => setPassword(e.target.value)}
+				/>
+				{errors.email && errors.email?.type === 'required'
 					? toastErrors(
 							<ErrorList>
-								<p>Username is required.</p>
+								<p>Email is required.</p>
 							</ErrorList>
 					  )
 					: errors.password && errors.password?.type === 'required'
@@ -68,29 +78,7 @@ export const LoginForm = () => {
 								<p>Password is required.</p>
 							</ErrorList>
 					  )
-					: message !== ''
-					? toastErrors(message)
 					: ''}
-
-				<TextInput
-					type='text'
-					name='username'
-					label='username'
-					register={register}
-					required
-					watch={watch}
-					onKeyUp={e => onChange('username', e)}
-				/>
-
-				<TextInput
-					type='password'
-					name='password'
-					label='password'
-					register={register}
-					required
-					watch={watch}
-					onKeyUp={e => onChange('password', e)}
-				/>
 				<ButtonContainer>
 					<Button radius='sm' theme='primary' size='lg' type='submit'>
 						Sign In

@@ -38,57 +38,57 @@ export const ButtonType = styled(props => props.as)`
 	${props =>
 		props.theme === 'primary'
 			? css`
-					background-color: ${include.colors.violet['600']};
-					border: 1px solid ${include.colors.violet['600']};
+					background-color: ${include.colors.violet600};
+					border: 1px solid ${include.colors.violet600};
 					color: ${!props.outline
-						? readableColor(include.colors.violet['600'])
-						: include.colors.violet['700']};
+						? readableColor(include.colors.violet600)
+						: include.colors.violet700};
 
 					&:hover {
 						background-color: ${props.outline
 							? `transparent`
-							: include.colors.violet['500']};
+							: include.colors.violet500};
 						color: ${!props.outline
-							? readableColor(include.colors.violet['600'])
-							: include.colors.violet['500']};
-						border: 1px solid ${include.colors.violet['500']};
+							? readableColor(include.colors.violet600)
+							: include.colors.violet500};
+						border: 1px solid ${include.colors.violet500};
 					}
 
 					&:active {
-						border: 1px solid ${include.colors.violet['200']};
+						border: 1px solid ${include.colors.violet200};
 						background-color: ${props.outline
 							? `transparent`
-							: include.colors.violet['200']};
+							: include.colors.violet200};
 					}
 			  `
 			: css`
-					background-color: ${include.colors.neutral['100']};
+					background-color: ${include.colors.neutral100};
 					border: 1px solid
 						${props.outline
-							? include.colors.neutral['600']
-							: include.colors.neutral['100']};
+							? include.colors.neutral600
+							: include.colors.neutral100};
 					color: ${!props.outline
-						? readableColor(include.colors.neutral['100'])
-						: include.colors.neutral['600']};
+						? readableColor(include.colors.neutral100)
+						: include.colors.neutral600};
 
 					&:hover {
 						border: 1px solid
 							${props.outline
-								? include.colors.neutral['400']
-								: include.colors.neutral['200']};
+								? include.colors.neutral400
+								: include.colors.neutral200};
 						background-color: ${props.outline
 							? `transparent`
-							: include.colors.neutral['200']};
+							: include.colors.neutral200};
 					}
 
 					&:active {
 						border: 1px solid
 							${props.outline
-								? include.colors.neutral['600']
-								: include.colors.neutral['300']};
+								? include.colors.neutral600
+								: include.colors.neutral300};
 						background-color: ${props.outline
 							? `transparent`
-							: include.colors.neutral['300']};
+							: include.colors.neutral300};
 					}
 			  `}
 
@@ -102,9 +102,9 @@ export const ButtonType = styled(props => props.as)`
 		disabled === true &&
 		css`
 			pointer-events: none;
-			background-color: ${include.colors.neutral['10']};
+			background-color: ${include.colors.neutral10};
 			border: 1px solid transparent;
-			color: ${include.colors.neutral['90']};
+			color: ${include.colors.neutral90};
 		`}
 
 	${({ outline }) =>

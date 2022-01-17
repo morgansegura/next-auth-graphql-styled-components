@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
 	body {
 		padding: 0;
 		margin: 0;
-		background-color: ${style.colors.neutral['100']};
+		background-color: ${style.colors.neutral100};
 	}
 
 	div,

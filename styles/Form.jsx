@@ -37,7 +37,7 @@ export const TextField = styled.div`
 				opacity: 0;
 			}
 			input {
-				outline-color: ${include.colors.violet['300']};
+				outline-color: ${include.colors.violet300};
 			}
 		`}
 
@@ -68,7 +68,7 @@ export const TextField = styled.div`
 		border-color: transparent;
 		padding: ${include.sp['3.5']};
 		background-color: transparent;
-		border: 1px solid ${include.colors.neutral['200']};
+		border: 1px solid ${include.colors.neutral200};
 		transition: outline-color 0.3s ease-out;
 	}
 `
@@ -99,7 +99,7 @@ export const ToggleForm = styled.div`
 
 export const ErrorList = styled.div`
 	p {
-		color: ${include.colors.red['600']};
+		color: ${include.colors.red600};
 
 		&:not(:nth-child(1)) {
 			padding-top: ${include.sp['3']};

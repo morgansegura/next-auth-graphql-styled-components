@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 // import { roleType, handleLogout } from 'utils/auth'
-import { Button } from 'components/core'
+import { Button } from '@components/core'
 import { Container } from '@styles/Container'
 import {
 	FooterCopyright,
