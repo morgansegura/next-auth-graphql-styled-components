@@ -3,6 +3,7 @@ import Router, { useRouter } from 'next/router'
 import { useAuth } from '@lib/auth'
 // import NProgress from 'nprogress'
 import { Button } from '@components/core'
+import { SignOut } from '@components/inputs'
 import { Container } from '@styles/Container'
 import { Logo, Menu, Nav, NavItem, Header as Wrapper } from '@styles/Header'
 
@@ -57,12 +58,8 @@ export default function Header({ user }) {
 										</NavItem>
 									</a>
 								</Link>
-								<Button
-									size='xs'
-									theme='primary'
-									onClick={() => signOut()}>
-									Sign Out
-								</Button>
+
+								<SignOut />
 							</>
 						) : (
 							<>
