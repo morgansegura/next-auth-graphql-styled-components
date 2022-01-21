@@ -9,7 +9,7 @@ const TextInput = ({
 	name,
 	...rest
 }) => {
-	const [value, setValue] = useState('')
+	// const [value, setValue] = useState('')
 	const [focus, setFocus] = useState(false)
 	const [blur, setBlur] = useState(true)
 

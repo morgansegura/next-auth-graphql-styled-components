@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
+import { isLoggedIn } from '@utils/token'
+
+// Components
 import { LoginForm } from 'components/forms'
 import { Home } from '@components/layouts'
 
@@ -13,8 +16,8 @@ const HomePage = ({ props }) => {
 
 			<main>
 				<h1>GRANDcast.FM</h1>
-				{true && <LoginForm />}
-				{true && <Home />}
+				{!isLoggedIn() && <Home />}
+				{isLoggedIn() && <LoginForm />}
 			</main>
 		</div>
 	)

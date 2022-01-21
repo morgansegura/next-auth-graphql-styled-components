@@ -11,7 +11,7 @@ import { ButtonContainer } from '@styles/Button'
 import { ErrorList } from '@styles/Form'
 import { toast } from 'react-toastify'
 import { LoginMutation } from '@graphql/mutations/authMutations'
-import { setToken } from '@utils/utils'
+import { setToken, isLoggedIn } from '@utils/token'
 
 export const LoginForm = ({ setIsAuthenticated }) => {
 	const {
@@ -31,13 +31,18 @@ export const LoginForm = ({ setIsAuthenticated }) => {
 		login({
 			email: watch('email'),
 			password: watch('password')
-		}).then(({ data }) => {
-			console.log(data)
-			console.log('Anything')
-			if (data.login) {
-				setToken({ token })
-				setIsAuthenticated(true)
-			}
+		}).then(any => {
+			console.log(any)
+			// if (error) {
+			// 	return (
+			// 		<ErrorList>
+			// 			<p>{error}</p>
+			// 		</ErrorList>
+			// 	)
+			// }
+			// if (data.login) {
+			// 	setToken('token')
+			// }
 		})
 	}
 

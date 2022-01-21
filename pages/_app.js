@@ -15,14 +15,12 @@ function MyApp({ Component, pageProps }) {
 	return (
 		<>
 			<AuthProvider>
-				{/* <ThemeProvider theme={theme}> */}
 				<Layout>
 					<GlobalStyle />
 					<Component {...pageProps} />
 					<ToastContainer />
 				</Layout>
 				{query.scaffold === 'yesplease' && <Scaffold />}
-				{/* </ThemeProvider> */}
 			</AuthProvider>
 		</>
 	)
