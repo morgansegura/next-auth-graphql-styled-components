@@ -1,6 +1,6 @@
 import { Layout, Scaffold } from 'components/layouts'
 import { GlobalStyle } from '@styles/config/globalStyles'
-import { AuthProvider } from 'lib/auth.js'
+import { AuthProvider } from '@lib/auth'
 import { useRouter } from 'next/router'
 // Libs
 import { ToastContainer } from 'react-toastify'

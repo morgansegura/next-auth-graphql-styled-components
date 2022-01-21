@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import Router, { useRouter } from 'next/router'
-import { useAuth } from '@lib/auth'
 // import NProgress from 'nprogress'
 import { Button } from '@components/core'
 import { SignOut } from '@components/inputs'
@@ -20,8 +19,6 @@ export default function Header({ user }) {
 		return router.pathname === route
 	}
 
-	const { isSignedIn, signOut } = useAuth()
-
 	return (
 		<Container>
 			<Wrapper>
@@ -32,7 +29,7 @@ export default function Header({ user }) {
 						</a>
 					</Link>
 					<Nav>
-						{isSignedIn() ? (
+						{true ? (
 							<>
 								<Link href='/cart'>
 									<a>

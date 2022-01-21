@@ -1,12 +1,9 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
-import { useAuth } from '@lib/auth'
-import { SigninForm } from 'components/forms'
+import { LoginForm } from 'components/forms'
 import { Home } from '@components/layouts'
 
 const HomePage = ({ props }) => {
-	const { isSignedIn } = useAuth()
-
 	return (
 		<div>
 			<Head>
@@ -16,8 +13,8 @@ const HomePage = ({ props }) => {
 
 			<main>
 				<h1>GRANDcast.FM</h1>
-				{!isSignedIn() && <SigninForm />}
-				{isSignedIn() && <Home />}
+				{true && <LoginForm />}
+				{true && <Home />}
 			</main>
 		</div>
 	)

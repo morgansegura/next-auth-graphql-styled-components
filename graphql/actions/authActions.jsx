@@ -1,4 +1,4 @@
-import { useAuth } from '@lib/auth'
+// import { useAuth } from '@lib/auth'
 import { AuthUserQuery } from '@graphql/queries/authQueries'
 import { onError } from 'apollo-link-error'
 

@@ -1,21 +1,19 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
+import { useMutation } from 'urql'
 import { useForm } from 'react-hook-form'
-import { ErrorMessage } from '@utils/helpers'
-
 // Components
 import { Button } from '@components/core'
 import { TextInput } from '@components/inputs'
-import { useAuth } from '@lib/auth'
 
 // Styles
-import { AuthForm, ToggleForm, FormTitle } from '@styles/Form'
+import { AuthForm, FormTitle } from '@styles/Form'
 import { ButtonContainer } from '@styles/Button'
 import { ErrorList } from '@styles/Form'
 import { toast } from 'react-toastify'
+import { LoginMutation } from '@graphql/mutations/authMutations'
+import { setToken } from '@utils/utils'
 
-export const LoginForm = () => {
-	const { signIn } = useAuth()
-
+export const LoginForm = ({ setIsAuthenticated }) => {
 	const {
 		register,
 		handleSubmit,
@@ -27,17 +25,18 @@ export const LoginForm = () => {
 		toast(message)
 	}
 
+	const [data, login] = useMutation(LoginMutation)
+
 	const onSubmit = () => {
-		signIn({
+		login({
 			email: watch('email'),
 			password: watch('password')
-		}).then(result => {
-			if (result.errors.length) {
-				toastErrors(
-					<ErrorList>
-						<p>Invalid email or password!</p>
-					</ErrorList>
-				)
+		}).then(({ data }) => {
+			console.log(data)
+			console.log('Anything')
+			if (data.login) {
+				setToken({ token })
+				setIsAuthenticated(true)
 			}
 		})
 	}
@@ -85,12 +84,6 @@ export const LoginForm = () => {
 					</Button>
 				</ButtonContainer>
 			</AuthForm>
-			<ToggleForm>
-				<p>Don't have a membership?</p>
-				<Button radius='3xl' theme='transparent'>
-					Sign Up
-				</Button>
-			</ToggleForm>
 		</div>
 	)
 }
