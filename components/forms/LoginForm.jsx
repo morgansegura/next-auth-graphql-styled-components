@@ -1,19 +1,21 @@
 import React from 'react'
-import { useMutation } from 'urql'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+
 // Components
 import { Button } from '@components/core'
 import { TextInput } from '@components/inputs'
+// import { LoadingScreen } from '@components/layouts'
+
+// Auth
+import { useAuth } from '@lib/auth'
 
 // Styles
-import { AuthForm, FormTitle } from '@styles/Form'
+import { AuthForm, ErrorList, FormTitle } from '@styles/Form'
 import { ButtonContainer } from '@styles/Button'
-import { ErrorList } from '@styles/Form'
-import { toast } from 'react-toastify'
-import { LoginMutation } from '@graphql/mutations/authMutations'
-import { setToken, isLoggedIn } from '@utils/token'
 
-export const LoginForm = ({ setIsAuthenticated }) => {
+export const LoginForm = () => {
+	const { login } = useAuth()
 	const {
 		register,
 		handleSubmit,
@@ -25,24 +27,10 @@ export const LoginForm = ({ setIsAuthenticated }) => {
 		toast(message)
 	}
 
-	const [data, login] = useMutation(LoginMutation)
-
 	const onSubmit = () => {
 		login({
 			email: watch('email'),
 			password: watch('password')
-		}).then(any => {
-			console.log(any)
-			// if (error) {
-			// 	return (
-			// 		<ErrorList>
-			// 			<p>{error}</p>
-			// 		</ErrorList>
-			// 	)
-			// }
-			// if (data.login) {
-			// 	setToken('token')
-			// }
 		})
 	}
 

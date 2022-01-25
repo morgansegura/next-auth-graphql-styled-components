@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import Head from 'next/head'
-import { isLoggedIn } from '@utils/token'
 
 // Components
 import { LoginForm } from 'components/forms'
 import { Home } from '@components/layouts'
+import { useAuth } from '@lib/auth'
 
-const HomePage = ({ props }) => {
+const HomePage = () => {
+	const { isLoggedIn } = useAuth()
 	return (
-		<div>
+		<>
 			<Head>
 				<title>GRANDcast.FM</title>
 				<link rel='icon' href='/favicon.ico' />
@@ -16,10 +17,11 @@ const HomePage = ({ props }) => {
 
 			<main>
 				<h1>GRANDcast.FM</h1>
-				{!isLoggedIn() && <Home />}
-				{isLoggedIn() && <LoginForm />}
+
+				{!isLoggedIn() && <LoginForm />}
+				{isLoggedIn() && <Home />}
 			</main>
-		</div>
+		</>
 	)
 }
 

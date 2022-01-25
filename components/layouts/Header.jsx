@@ -1,19 +1,21 @@
 import Link from 'next/link'
-import Router, { useRouter } from 'next/router'
-// import NProgress from 'nprogress'
+import { Router, useRouter } from 'next/router'
+import NProgress from 'nprogress'
 import { Button } from '@components/core'
-import { SignOut } from '@components/inputs'
+import { Logout } from '@components/inputs'
 import { Container } from '@styles/Container'
 import { Logo, Menu, Nav, NavItem, Header as Wrapper } from '@styles/Header'
+import { useAuth } from '@lib/auth'
 
-// Router.onRouteChangeStart = () => NProgress.start()
-// Router.onRouteChangeComplete = () => NProgress.done()
-// Router.onRouteChangeError = () => NProgress.done()
+Router.onRouteChangeStart = () => NProgress.start()
+Router.onRouteChangeComplete = () => NProgress.done()
+Router.onRouteChangeError = () => NProgress.done()
 
 export default function Header({ user }) {
 	const router = useRouter()
 	// const { isRootOrAdmin } = roleType(user)
 	const isRootOrAdmin = true
+	const { isLoggedIn } = useAuth()
 
 	function isActive(route) {
 		return router.pathname === route
@@ -29,7 +31,7 @@ export default function Header({ user }) {
 						</a>
 					</Link>
 					<Nav>
-						{true ? (
+						{isLoggedIn() ? (
 							<>
 								<Link href='/cart'>
 									<a>
@@ -56,7 +58,7 @@ export default function Header({ user }) {
 									</a>
 								</Link>
 
-								<SignOut />
+								<Logout />
 							</>
 						) : (
 							<>

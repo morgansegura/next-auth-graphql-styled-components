@@ -1,0 +1,9 @@
+a {
+    cursor: pinter;
+    text-decoration: none;
+    color: inherit;
+    padding: unset;
+    margin: unset;
+    transition: all 0.3s ease-out;
+
+}

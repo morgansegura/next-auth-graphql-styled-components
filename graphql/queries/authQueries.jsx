@@ -1,13 +1,10 @@
 import { gql } from '@apollo/client'
 
-export const AuthUserQuery = gql`
-	query AuthUser($id: String!) {
-		getUserById(id: $id) {
-			username
-			email
-			# password
+export const getCurrentUserQuery = gql`
+	query {
+		me {
 			id
-			# accessToken
+			username
 		}
 	}
 `
