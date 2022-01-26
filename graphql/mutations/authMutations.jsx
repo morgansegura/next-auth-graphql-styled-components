@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from '@urql/core'
 
 export const LOGIN_MUTATION = gql`
 	mutation ($email: String!, $password: String!) {

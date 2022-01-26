@@ -1,3 +1,4 @@
+import React from 'react'
 import Link from 'next/link'
 import { Router, useRouter } from 'next/router'
 import NProgress from 'nprogress'
@@ -6,20 +7,34 @@ import { Logout } from '@components/inputs'
 import { Container } from '@styles/Container'
 import { Logo, Menu, Nav, NavItem, Header as Wrapper } from '@styles/Header'
 import { useAuth } from '@lib/auth'
+import useStorage from '@hooks/useStorage'
+import { getClientBuildManifest } from 'next/dist/client/route-loader'
 
 Router.onRouteChangeStart = () => NProgress.start()
 Router.onRouteChangeComplete = () => NProgress.done()
 Router.onRouteChangeError = () => NProgress.done()
 
-export default function Header({ user }) {
+const Header = () => {
 	const router = useRouter()
-	// const { isRootOrAdmin } = roleType(user)
+	const { getItem } = useStorage()
 	const isRootOrAdmin = true
-	const { isLoggedIn } = useAuth()
+	const { isLoggedIn, getCurrentUser } = useAuth()
+	const [userData, setUserData] = React.useState({})
 
 	function isActive(route) {
 		return router.pathname === route
 	}
+
+	const getUser = async () => {
+		const data = await getCurrentUser()
+		setUserData({ id: data?.me?.id, username: data?.me?.username })
+	}
+
+	React.useEffect(() => {
+		if (getItem('token')) {
+			getUser()
+		}
+	}, [getUser])
 
 	return (
 		<Container>
@@ -59,16 +74,11 @@ export default function Header({ user }) {
 								</Link>
 
 								<Logout />
+
+								{userData.username}
 							</>
 						) : (
 							<>
-								<div>
-									<a>
-										<NavItem active={isActive('/signup')}>
-											Signup
-										</NavItem>
-									</a>
-								</div>
 								<Button
 									size='xs'
 									theme='primary'
@@ -83,3 +93,5 @@ export default function Header({ user }) {
 		</Container>
 	)
 }
+
+export default Header

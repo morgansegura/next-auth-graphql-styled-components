@@ -16,8 +16,6 @@ const HomePage = () => {
 			</Head>
 
 			<main>
-				<h1>GRANDcast.FM</h1>
-
 				{!isLoggedIn() && <LoginForm />}
 				{isLoggedIn() && <Home />}
 			</main>

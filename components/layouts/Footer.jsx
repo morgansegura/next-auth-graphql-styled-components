@@ -1,7 +1,5 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-// import { roleType, handleLogout } from 'utils/auth'
-import { Button } from '@components/core'
 import { Container } from '@styles/Container'
 import {
 	FooterCopyright,
@@ -11,9 +9,12 @@ import {
 	NavItem,
 	Footer as Wrapper
 } from '@styles/Footer'
+import { useAuth } from '@lib/auth'
+import { Logout } from '@components/inputs'
 
 const Footer = ({ user }) => {
 	const router = useRouter()
+	const { isLoggedIn } = useAuth()
 	const isRootOrAdmin = true
 
 	const isActive = route => {
@@ -37,7 +38,7 @@ const Footer = ({ user }) => {
 								</NavItem>
 							</a>
 						</Link>
-						{user ? (
+						{isLoggedIn() ? (
 							<>
 								<Link href='/cart'>
 									<a>
@@ -64,27 +65,11 @@ const Footer = ({ user }) => {
 										</NavItem>
 									</a>
 								</Link>
-								<Button size='xs' onClick={handleLogout}>
-									Logout
-								</Button>
+
+								<Logout />
 							</>
 						) : (
-							<>
-								<Link href='/signup'>
-									<a>
-										<NavItem active={isActive('/signup')}>
-											Signup
-										</NavItem>
-									</a>
-								</Link>
-								<Link href='/login'>
-									<a>
-										<NavItem active={isActive('/login')}>
-											Login
-										</NavItem>
-									</a>
-								</Link>
-							</>
+							<>Non Member</>
 						)}
 					</Nav>
 					<FooterCopyright>

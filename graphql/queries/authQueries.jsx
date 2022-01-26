@@ -1,6 +1,6 @@
-import { gql } from '@apollo/client'
+import { gql } from '@urql/core'
 
-export const getCurrentUserQuery = gql`
+export const GET_CURRENT_USER_QUERY = gql`
 	query {
 		me {
 			id

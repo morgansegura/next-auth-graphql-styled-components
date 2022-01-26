@@ -1,24 +1,21 @@
 import React, { useState, useContext, createContext } from 'react'
-import {
-	ApolloProvider,
-	ApolloClient,
-	InMemoryCache,
-	HttpLink,
-	gql
-} from '@apollo/client'
+import { Provider, useClient, Context } from 'urql'
+import client from '@lib/client'
+
 import useStorage from '@hooks/useStorage'
 import { LOGIN_MUTATION } from '@graphql/mutations/authMutations'
+import { GET_CURRENT_USER_QUERY } from '@graphql/queries/authQueries'
+
+// import { ThemeConsumer } from 'styled-components'
 
 const authContext = createContext()
 
 export function AuthProvider({ children }) {
-	const auth = useProvideAuth()
+	const auth = useProvideAuth(client)
 
 	return (
 		<authContext.Provider value={auth}>
-			<ApolloProvider client={auth.createApolloClient()}>
-				{children}
-			</ApolloProvider>
+			<Provider value={client}>{children}</Provider>
 		</authContext.Provider>
 	)
 }
@@ -27,50 +24,41 @@ export const useAuth = () => {
 	return useContext(authContext)
 }
 
-function useProvideAuth() {
+function useProvideAuth(client) {
 	const { setItem, getItem, removeItem } = useStorage()
 	const [authToken, setAuthToken] = useState(null)
+	const [userData, setUserData] = useState({})
 
 	const isLoggedIn = () => {
 		if (authToken || getItem('token')) {
 			return true
 		} else {
-			console.log(`IS NOT logged in`)
 			return false
 		}
 	}
 
-	const getAuthHeaders = () => {
-		if (!authToken) return null
+	const getCurrentUser = async () => {
+		let user
+		const { data } = await client.query(GET_CURRENT_USER_QUERY).toPromise()
 
-		return {
-			authorization: `Bearer ${authToken}`
+		if (data?.me?.id) {
+			user = data
 		}
-	}
-
-	const createApolloClient = () => {
-		const link = new HttpLink({
-			uri: 'http://localhost:5000/graphql',
-			headers: getAuthHeaders()
-		})
-
-		return new ApolloClient({
-			link,
-			cache: new InMemoryCache()
-		})
+		return user
 	}
 
 	const login = async ({ email, password }) => {
-		const client = createApolloClient()
+		const {
+			data: {
+				login: { token }
+			}
+		} = await client
+			.mutation(LOGIN_MUTATION, { email, password })
+			.toPromise()
 
-		const result = await client.mutate({
-			mutation: LOGIN_MUTATION,
-			variables: { email, password }
-		})
-
-		if (result?.data?.login?.token) {
-			setAuthToken(result.data.login.token)
-			setItem('token', result.data.login.token)
+		if (token) {
+			setAuthToken(token)
+			setItem('token', token)
 		}
 	}
 
@@ -82,8 +70,8 @@ function useProvideAuth() {
 	return {
 		setAuthToken,
 		isLoggedIn,
+		getCurrentUser,
 		login,
-		logout,
-		createApolloClient
+		logout
 	}
 }

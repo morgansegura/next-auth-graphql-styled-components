@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components'
 import * as include from '@styles/config/utilities'
 import { rgba, readableColor } from 'polished'
 
-export const ButtonType = styled(props => props.as)`
+export const Button = styled(props => props.as)`
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;

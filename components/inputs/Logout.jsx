@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
-import { ButtonType } from '@styles/Button'
+import { Button } from '@components/core'
 import { useAuth } from '@lib/auth'
 
 const Logout = () => {
@@ -9,23 +9,17 @@ const Logout = () => {
 
 	const logoutAction = () => {
 		logout()
-
 		if (!isLoggedIn()) {
 			router.push('/')
 		}
 	}
 
-	React.useEffect(() => {}, [logoutAction])
+	React.useEffect(() => {}, [isLoggedIn])
 
 	return (
-		<ButtonType
-			as='button'
-			size='xs'
-			radius='sm'
-			theme='primary'
-			onClick={logout}>
+		<Button size='xs' theme='primary' onClick={logoutAction}>
 			Logout
-		</ButtonType>
+		</Button>
 	)
 }
 

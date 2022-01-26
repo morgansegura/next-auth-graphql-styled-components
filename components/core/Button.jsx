@@ -1,5 +1,5 @@
 import React from 'react'
-import { ButtonType } from 'styles/Button'
+import { Button as ButtonType } from '@styles/Button'
 
 const Button = ({ children, as = 'button', ...props }) => {
 	return (

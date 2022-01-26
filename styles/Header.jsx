@@ -44,7 +44,7 @@ export const Nav = styled.nav`
 	justify-self: flex-end;
 	grid-gap: ${include.sp['1.5']};
 `
-export const NavItem = styled.nav`
+export const NavItem = styled.span`
 	${include.tag['bold']};
 	color: ${include.neutral['70']};
 
