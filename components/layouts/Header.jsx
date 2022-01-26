@@ -8,7 +8,8 @@ import { Container } from '@styles/Container'
 import { Logo, Menu, Nav, NavItem, Header as Wrapper } from '@styles/Header'
 import { useAuth } from '@lib/auth'
 import useStorage from '@hooks/useStorage'
-import { getClientBuildManifest } from 'next/dist/client/route-loader'
+import { GET_CURRENT_USER_QUERY } from '@graphql/queries/authQueries'
+import { useQuery } from 'urql'
 
 Router.onRouteChangeStart = () => NProgress.start()
 Router.onRouteChangeComplete = () => NProgress.done()
@@ -17,24 +18,20 @@ Router.onRouteChangeError = () => NProgress.done()
 const Header = () => {
 	const router = useRouter()
 	const { getItem } = useStorage()
-	const isRootOrAdmin = true
-	const { isLoggedIn, getCurrentUser } = useAuth()
+	const { isLoggedIn } = useAuth()
 	const [userData, setUserData] = React.useState({})
 
 	function isActive(route) {
 		return router.pathname === route
 	}
 
-	const getUser = async () => {
-		const data = await getCurrentUser()
-		setUserData({ id: data?.me?.id, username: data?.me?.username })
-	}
+	const [user] = useQuery({ query: GET_CURRENT_USER_QUERY })
 
 	React.useEffect(() => {
 		if (getItem('token')) {
-			getUser()
+			router.push('/')
 		}
-	}, [getUser])
+	}, [user])
 
 	return (
 		<Container>
@@ -42,13 +39,13 @@ const Header = () => {
 				<Menu>
 					<Link href='/'>
 						<a>
-							<Logo>ReactReserve</Logo>
+							<Logo>Youth Sports</Logo>
 						</a>
 					</Link>
-					<Nav>
+					<>
 						{isLoggedIn() ? (
-							<>
-								<Link href='/cart'>
+							<Nav>
+								{/* <Link href='/cart'>
 									<a>
 										<NavItem active={isActive('/cart')}>
 											Cart
@@ -71,23 +68,27 @@ const Header = () => {
 											Account
 										</NavItem>
 									</a>
-								</Link>
+								</Link> */}
 
-								<Logout />
+								{user?.data?.me?.username}
 
-								{userData.username}
-							</>
+								<>
+									<Logout />
+								</>
+							</Nav>
 						) : (
-							<>
-								<Button
-									size='xs'
-									theme='primary'
-									onClick={() => router.push('/login')}>
-									Login
-								</Button>
-							</>
+							<Nav>
+								{!isActive('/') && (
+									<Button
+										size='xs'
+										theme='primary'
+										onClick={() => router.push('/')}>
+										Get Started
+									</Button>
+								)}
+							</Nav>
 						)}
-					</Nav>
+					</>
 				</Menu>
 			</Wrapper>
 		</Container>
