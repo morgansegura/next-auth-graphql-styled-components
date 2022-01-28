@@ -28,9 +28,9 @@ const Header = () => {
 	const [user] = useQuery({ query: GET_CURRENT_USER_QUERY })
 
 	React.useEffect(() => {
-		if (getItem('token')) {
-			router.push('/')
-		}
+		// if (getItem('token')) {
+		// 	router.push('/')
+		// }
 	}, [user])
 
 	return (

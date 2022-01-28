@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Head from 'next/head'
 
 // Components
-import { LoginForm } from 'components/forms'
-import { Home } from '@components/layouts'
+import { Home, Authorization } from '@components/layouts'
 import { useAuth } from '@lib/auth'
 
 const HomePage = () => {
@@ -16,7 +15,7 @@ const HomePage = () => {
 			</Head>
 
 			<main>
-				{!isLoggedIn() && <LoginForm />}
+				{!isLoggedIn() && <Authorization form='signup' />}
 				{isLoggedIn() && <Home />}
 			</main>
 		</>

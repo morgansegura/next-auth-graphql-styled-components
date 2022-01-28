@@ -15,7 +15,7 @@ import { AuthForm, ErrorList, FormTitle } from '@styles/Form'
 import { ButtonContainer } from '@styles/Button'
 
 export const LoginForm = () => {
-	const { login } = useAuth()
+	const { login, getCurrentUser } = useAuth()
 	const {
 		register,
 		handleSubmit,
@@ -37,7 +37,7 @@ export const LoginForm = () => {
 	return (
 		<div>
 			<FormTitle>
-				<h3>Sign In</h3>
+				<h3>Sign into your account</h3>
 			</FormTitle>
 			<AuthForm onSubmit={handleSubmit(onSubmit)}>
 				<TextInput
@@ -72,7 +72,7 @@ export const LoginForm = () => {
 					  )
 					: ''}
 				<ButtonContainer>
-					<Button radius='sm' theme='primary' size='lg' type='submit'>
+					<Button radiusBase primary large type='submit'>
 						Sign In
 					</Button>
 				</ButtonContainer>

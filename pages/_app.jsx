@@ -18,9 +18,9 @@ function MyApp({ Component, pageProps }) {
 			<Layout>
 				<GlobalStyle />
 				<Component {...pageProps} />
-				<ToastContainer />
 			</Layout>
 			{query.scaffold === 'yesplease' && <Scaffold />}
+			<ToastContainer />
 		</AuthProvider>
 	)
 }

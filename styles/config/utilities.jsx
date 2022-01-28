@@ -338,7 +338,7 @@ export const radius = {
 	'3xl': `
 		border-radius: 1.5rem;
 	`,
-	full: `
+	round: `
 		border-radius: 9999px;
 	`
 }

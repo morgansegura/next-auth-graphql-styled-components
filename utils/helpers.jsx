@@ -1,8 +1,20 @@
-import { ErrorList } from '../styles/Form'
+import { toast } from 'react-toastify'
+import { ErrorList, SuccessList } from '@styles/Form'
 
-export const ErrorMessage = string => {
-	let errorArray = string.split('.,')
+export const ErrorMessage = ({ message }) => {
+	const cleanMessage = message.replace('[GraphQL] ', '')
 
-	const prettierError = errorArray.map((err, i) => <p key={i}>{err}</p>)
-	return <ErrorList>{prettierError}</ErrorList>
+	return (
+		<ErrorList>
+			<p>{cleanMessage}</p>
+		</ErrorList>
+	)
+}
+
+export const SuccessMessage = ({ message }) => {
+	return (
+		<SuccessList>
+			<p>{message}</p>
+		</SuccessList>
+	)
 }

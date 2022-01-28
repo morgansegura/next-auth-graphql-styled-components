@@ -76,8 +76,8 @@ export const TextField = styled.div`
 export const FormTitle = styled.div`
 	display: flex;
 	justify-content: center;
-	padding-top: ${include.sp['3']};
-	padding-bottom: ${include.sp['6']};
+	padding-top: ${include.sp['9']};
+	padding-bottom: ${include.sp['3']};
 `
 
 export const ToggleForm = styled.div`
@@ -104,5 +104,39 @@ export const ErrorList = styled.div`
 		&:not(:nth-child(1)) {
 			padding-top: ${include.sp['3']};
 		}
+	}
+`
+
+export const SuccessList = styled.div`
+	p {
+		color: ${include.colors.green600};
+
+		&:not(:nth-child(1)) {
+			padding-top: ${include.sp['3']};
+		}
+	}
+`
+export const MessageDisplay = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	h3 {
+		margin-top: ${include.sp['9']};
+	}
+
+	button {
+		margin-top: ${include.sp['6']};
+	}
+`
+export const FormAnnotation = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: ${include.sp['4']};
+	margin-bottom: ${include.sp['4']};
+
+	button {
+		margin-left: ${include.sp['4']};
 	}
 `

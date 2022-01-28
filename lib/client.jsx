@@ -26,7 +26,7 @@ import {
 
 let initialized = new Date().getTime()
 const client = createClient({
-	url: 'http://localhost:5000/graphql',
+	url: 'http://localhost:3001/graphql',
 	exchanges: [
 		dedupExchange,
 		cacheExchange,

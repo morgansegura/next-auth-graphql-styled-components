@@ -3,8 +3,12 @@ import { Provider, useClient, Context } from 'urql'
 import client from '@lib/client'
 
 import useStorage from '@hooks/useStorage'
-import { LOGIN_MUTATION } from '@graphql/mutations/authMutations'
+import {
+	LOGIN_MUTATION,
+	SIGNUP_MUTATION
+} from '@graphql/mutations/authMutations'
 import { GET_CURRENT_USER_QUERY } from '@graphql/queries/authQueries'
+import { errors } from '@lib/messages'
 
 // import { ThemeConsumer } from 'styled-components'
 
@@ -27,39 +31,58 @@ export const useAuth = () => {
 function useProvideAuth(client) {
 	const { setItem, getItem, removeItem } = useStorage()
 	const [authToken, setAuthToken] = useState(null)
-	const [userData, setUserData] = useState({})
+
+	const getCurrentUser = () => {
+		const isCurrentUser = false
+		const isEmailVerified = false
+		let user
+
+		const { data } = client.query(GET_CURRENT_USER_QUERY).toPromise()
+
+		if (data?.me?.id) {
+			const userData = data?.me
+			user = data
+			user.isEmailVerified = userData.isEmailVerified
+			user.isCurrentUser = true
+		}
+
+		return {
+			isCurrentUser,
+			isEmailVerified,
+			user
+		}
+	}
+	const { isCurrentUser, user } = getCurrentUser()
 
 	const isLoggedIn = () => {
-		if (authToken || getItem('token')) {
+		if (getItem('token') && isCurrentUser) {
 			return true
 		} else {
 			return false
 		}
 	}
 
-	const getCurrentUser = async () => {
-		let user
-		const { data } = await client.query(GET_CURRENT_USER_QUERY).toPromise()
-
-		if (data?.me?.id) {
-			user = data
-		}
-		return user
-	}
-
 	const login = async ({ email, password }) => {
-		const {
-			data: {
-				login: { token }
-			}
-		} = await client
+		let message = null
+
+		const { data, error } = await client
 			.mutation(LOGIN_MUTATION, { email, password })
 			.toPromise()
 
-		if (token) {
+		if (error?.message) {
+			if (error?.message === '[GraphQL] Please validate your email!') {
+				message = errors.validateEmail
+			} else {
+				message = errors.undefinedError
+			}
+		}
+
+		if (data?.login?.token) {
 			setAuthToken(token)
 			setItem('token', token)
+			message = 'You have succcesfully logged in!'
 		}
+		return message
 	}
 
 	const logout = () => {

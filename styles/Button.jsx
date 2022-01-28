@@ -4,39 +4,75 @@ import { rgba, readableColor } from 'polished'
 
 export const Button = styled(props => props.as)`
 	cursor: pointer;
-	display: inline-flex;
 	align-items: center;
 	text-transform: uppercase;
-	letter-spacing: 0.02857em;
+	letter-spacing: 0.03857em;
+	border: 1px solid transparent;
 	transition: border-color 0.3s ease-out, color 0.3s ease-out,
 		background-color 0.3s ease-out;
 
-	// Radius
-	${({ radius }) => radius && include.radius[radius]}
+	&:hover {
+	}
+	&:active {
+	}
 
-	${({ size }) =>
-		size === 'xs'
-			? css`
-					${include.fontSizing('12px', '24px', '600')};
-					padding: 2px 8px;
-			  `
-			: size === 'sm'
-			? css`
-					${include.fontSizing('13px', '26px', '600')};
-					padding: 4px 10px;
-			  `
-			: size === 'lg'
-			? css`
-					${include.fontSizing('15px', '28px', '600')};
-					padding: 6px 16px;
-			  `
-			: css`
-					${include.fontSizing('14px', '28px', '600')};
-					padding: 6px 16px;
-			  `}
+	/* [Radius] */
+	${({ radiusNone }) => radiusNone && include.radius['none']}
+	${({ radiusSM }) => radiusSM && include.radius['none']}
+	${({ radiusBase }) => radiusBase && include.radius['base']}
+	${({ radiusMD }) => radiusMD && include.radius['md']}
+	${({ radiusLG }) => radiusLG && include.radius['lg']}
+	${({ radiusXL }) => radiusXL && include.radius['xl']}
+	${({ radius2XL }) => radius2XL && include.radius['2xl']}
+	${({ radius3XL }) => radius3XL && include.radius['3xl']}
+	${({ radiusRound }) => radiusRound && include.radius['round']}
 
 	${props =>
-		props.theme === 'primary'
+		props.inline
+			? css`
+					display: inline-flex;
+			  `
+			: css`
+					display: flex;
+			  `}
+
+	/* [Size] */
+
+	${props =>
+		props.tiny
+			? css`
+					${include.fontSizing('10px', '24px', '600')};
+					padding: 4px 12px;
+			  `
+			: props.small
+			? css`
+					${include.fontSizing('11px', '28px', '600')};
+					padding: 6px 18px;
+			  `
+			: props.medium
+			? css`
+					${include.fontSizing('12px', '32px', '600')};
+					padding: 8px 24px;
+			  `
+			: props.large
+			? css`
+					${include.fontSizing('14px', '36px', '600')};
+					padding: 10px 50px;
+			  `
+			: props.extraLarge
+			? css`
+					${include.fontSizing('18px', '40px', '600')};
+					padding: 10px 50px;
+			  `
+			: css`
+					${include.fontSizing('12px', '24px', '600')};
+					padding: 8px 16px;
+			  `}
+
+
+	/* [Color] */
+	${props =>
+		props.primary
 			? css`
 					background-color: ${include.colors.violet600};
 					border: 1px solid ${include.colors.violet600};
@@ -61,34 +97,62 @@ export const Button = styled(props => props.as)`
 							: include.colors.violet200};
 					}
 			  `
+			: props.warning
+			? css`
+					background-color: ${include.colors.orange500};
+					border: 1px solid ${include.colors.orange500};
+					color: ${!props.outline
+						? readableColor(include.colors.orange500)
+						: include.colors.orange500};
+
+					&:hover {
+						background-color: ${props.outline
+							? `transparent`
+							: include.colors.orange400};
+						color: ${!props.outline
+							? readableColor(include.colors.orange400)
+							: include.colors.orange400};
+						border: 1px solid ${include.colors.orange400};
+					}
+
+					&:active {
+						border: 1px solid ${include.colors.orange600};
+						color: ${!props.outline
+							? readableColor(include.colors.orange600)
+							: include.colors.orange600};
+						background-color: ${props.outline
+							? `transparent`
+							: include.colors.orange600};
+					}
+			  `
 			: css`
-					background-color: ${include.colors.neutral100};
+					background-color: ${include.colors.zinc300};
 					border: 1px solid
 						${props.outline
-							? include.colors.neutral600
-							: include.colors.neutral100};
+							? include.colors.zinc600
+							: include.colors.zinc300};
 					color: ${!props.outline
-						? readableColor(include.colors.neutral100)
-						: include.colors.neutral600};
+						? readableColor(include.colors.zinc300)
+						: include.colors.zinc600};
 
 					&:hover {
 						border: 1px solid
 							${props.outline
-								? include.colors.neutral400
-								: include.colors.neutral200};
+								? include.colors.zinc400
+								: include.colors.zinc200};
 						background-color: ${props.outline
 							? `transparent`
-							: include.colors.neutral200};
+							: include.colors.zinc200};
 					}
 
 					&:active {
 						border: 1px solid
 							${props.outline
-								? include.colors.neutral600
-								: include.colors.neutral300};
+								? include.colors.zinc700
+								: include.colors.zinc300};
 						background-color: ${props.outline
 							? `transparent`
-							: include.colors.neutral300};
+							: include.colors.zinc300};
 					}
 			  `}
 
