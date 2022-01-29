@@ -1,29 +1,34 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
 
 // Components
 import { Button } from '@components/core'
 import { TextInput } from '@components/inputs'
-// import { LoadingScreen } from '@components/layouts'
+import { ErrorMessage } from '@utils/helpers'
 
 // Auth
 import { useAuth } from '@lib/auth'
 
 // Styles
-import { AuthForm, ErrorList, FormTitle } from '@styles/Form'
+import { AuthForm, FormTitle } from '@styles/Form'
 import { ButtonContainer } from '@styles/Button'
 
 export const LoginForm = () => {
-	const { login, getCurrentUser } = useAuth()
+	const [errorAction, setErrorAction] = React.useState(false)
+	const [successAction, setSuccessAction] = React.useState(false)
+
+	const { login } = useAuth()
 	const {
 		register,
 		handleSubmit,
 		watch,
 		formState: { errors }
 	} = useForm()
+	const router = useRouter()
 
-	const toastErrors = message => {
+	const fireToast = message => {
 		toast(message)
 	}
 
@@ -31,6 +36,19 @@ export const LoginForm = () => {
 		login({
 			email: watch('email'),
 			password: watch('password')
+		}).then(({ data, error }) => {
+			if (error?.message) {
+				setErrorAction(error?.message)
+				if (errorAction) {
+					toast(<ErrorMessage message={errorAction} />)
+				}
+			}
+
+			if (data?.login) {
+				setErrorAction(false)
+				setSuccessAction(true)
+				router.push('/')
+			}
 		})
 	}
 
@@ -47,7 +65,6 @@ export const LoginForm = () => {
 					register={register}
 					required
 					watch={watch}
-					// onChange={e => setUsername(e.target.value)}
 				/>
 				<TextInput
 					type='password'
@@ -56,27 +73,18 @@ export const LoginForm = () => {
 					register={register}
 					required
 					watch={watch}
-					// onKeyUp={e => setPassword(e.target.value)}
 				/>
-				{errors.email && errors.email?.type === 'required'
-					? toastErrors(
-							<ErrorList>
-								<p>Email is required.</p>
-							</ErrorList>
-					  )
-					: errors.password && errors.password?.type === 'required'
-					? toastErrors(
-							<ErrorList>
-								<p>Password is required.</p>
-							</ErrorList>
-					  )
-					: ''}
 				<ButtonContainer>
 					<Button radiusBase primary large type='submit'>
 						Sign In
 					</Button>
 				</ButtonContainer>
 			</AuthForm>
+			{errors.email && errors.email?.type === 'required'
+				? fireToast(<ErrorMessage message='Email is required.' />)
+				: errors.password && errors.password?.type === 'required'
+				? fireToast(<ErrorMessage message='Paddword is required.' />)
+				: ''}
 		</div>
 	)
 }

@@ -1,12 +1,9 @@
 import React, { useState, useContext, createContext } from 'react'
-import { Provider, useClient, Context } from 'urql'
+import { Provider } from 'urql'
 import client from '@lib/client'
 
 import useStorage from '@hooks/useStorage'
-import {
-	LOGIN_MUTATION,
-	SIGNUP_MUTATION
-} from '@graphql/mutations/authMutations'
+import { LOGIN_MUTATION } from '@graphql/mutations/authMutations'
 import { GET_CURRENT_USER_QUERY } from '@graphql/queries/authQueries'
 import { errors } from '@lib/messages'
 
@@ -55,7 +52,7 @@ function useProvideAuth(client) {
 	const { isCurrentUser, user } = getCurrentUser()
 
 	const isLoggedIn = () => {
-		if (getItem('token') && isCurrentUser) {
+		if (authToken) {
 			return true
 		} else {
 			return false
@@ -78,8 +75,8 @@ function useProvideAuth(client) {
 		}
 
 		if (data?.login?.token) {
-			setAuthToken(token)
-			setItem('token', token)
+			setAuthToken(data?.login?.token)
+			setItem('token', data?.login?.token)
 			message = 'You have succcesfully logged in!'
 		}
 		return message

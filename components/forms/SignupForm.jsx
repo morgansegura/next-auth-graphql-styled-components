@@ -10,7 +10,7 @@ import { SIGNUP_MUTATION } from '@graphql/mutations/authMutations'
 // [Components]
 import { Button } from '@components/core'
 import { TextInput } from '@components/inputs'
-import { ErrorMessage, SuccessMessage } from '@utils/helpers'
+import { ErrorMessage } from '@utils/helpers'
 import { ActionMessage } from '@components/forms'
 
 // [Styles]
@@ -20,8 +20,7 @@ import { ButtonContainer } from '@styles/Button'
 export const SignupForm = () => {
 	const [errorAction, setErrorAction] = React.useState(false)
 	const [successAction, setSuccessAction] = React.useState(false)
-	const [email, setEmail] = React.useState()
-	const [password, setPassword] = React.useState()
+
 	const {
 		register,
 		handleSubmit,
@@ -39,14 +38,11 @@ export const SignupForm = () => {
 
 	const onSubmit = () => {
 		removeItem('token')
-		setEmail(watch('email'))
-		setPassword(watch('password'))
 
-		signup({ email: watch('email'), password: watch('password') })
-			.then(({ data, error }) => {
+		signup({ email: watch('email'), password: watch('password') }).then(
+			({ data, error }) => {
 				if (error?.message) {
 					setErrorAction(error?.message)
-					console.log(error)
 					if (errorAction) {
 						toast(<ErrorMessage message={errorAction} />)
 					}
@@ -55,22 +51,14 @@ export const SignupForm = () => {
 					setErrorAction(false)
 					setSuccessAction(true)
 				}
-			})
-			.catch(error => {
-				console.log('catch', error)
-			})
-			.finally(() => {
-				setErrorAction(false)
-				console.log('And then...')
-			})
+			}
+		)
 	}
-
-	React.useEffect(() => {}, [])
 
 	return (
 		<div>
 			{successAction ? (
-				<ActionMessage message='Please check your email for a confirmation email!' />
+				<ActionMessage message='Please check your email inbox for a confirmation email!' />
 			) : (
 				<>
 					<FormTitle>
@@ -84,7 +72,6 @@ export const SignupForm = () => {
 							register={register}
 							required
 							watch={watch}
-							// onChange={e => setUsername(e.target.value)}
 						/>
 						<TextInput
 							type='password'
@@ -93,7 +80,6 @@ export const SignupForm = () => {
 							register={register}
 							required
 							watch={watch}
-							// onKeyUp={e => setPassword(e.target.value)}
 						/>
 						<ButtonContainer>
 							<Button radiusBase primary large type='submit'>
