@@ -3,12 +3,16 @@ import { Button, Box } from '@components/core'
 // [Styles]
 import { MessageDisplay } from '@styles/Form'
 
-const ActionMessage = ({ message, label, action, theme }) => {
+const ActionMessage = ({ icon, label, action, message, theme }) => {
 	return (
-		<MessageDisplay>
-			<h3>{message}</h3>
+		<MessageDisplay theme={theme}>
+			<h3>
+				{icon && icon}
+				{message}
+			</h3>
+
 			{label && (
-				<Button theme={theme} medium radiusBase onClick={action}>
+				<Button theme={theme} medium inline radiusBase onClick={action}>
 					{label}
 				</Button>
 			)}

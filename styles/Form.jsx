@@ -117,15 +117,44 @@ export const SuccessList = styled.div`
 	}
 `
 export const MessageDisplay = styled.div`
+	position: relative;
 	display: flex;
+	overflow: hidden;
 	flex-direction: column;
 	align-items: center;
+	margin-top: ${include.sp[9]};
+	margin-bottom: ${include.sp[9]};
+
+	/* ${props =>
+		props.theme === 'warning'
+			? css`
+					background-color: ${include.colors.orange100};
+			  `
+			: props.theme == 'danger'
+			? css`
+					color: ${include.colors.red600};
+					border: 1px solid ${include.colors.red100};
+			  `
+			: ''} */
 
 	h3 {
-		margin-top: ${include.sp['9']};
+		display: flex;
+		align-items: center;
+	}
+
+	svg {
+		display: flex;
+		align-items: center;
+		${include.radius['lg']}
+		padding: ${include.sp[1]};
+		display: flex;
+		width: 40px;
+		height: 40px;
+		margin-right: ${include.sp[4]};
 	}
 
 	button {
+		flex: 1 0 auto;
 		margin-top: ${include.sp['6']};
 	}
 `

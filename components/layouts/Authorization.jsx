@@ -2,6 +2,7 @@ import React from 'react'
 // [Components]
 import { LoginForm, SignupForm, ActionMessage } from '@components/forms'
 import { Button, Box } from '@components/core'
+import { TiCogOutline } from 'react-icons/ti'
 
 // [Styles]
 import { FormAnnotation } from '@styles/Form'
