@@ -1,17 +1,27 @@
 import React from 'react'
-import { Box } from '@components/core'
 import { WaveSpinner } from '@components/loaders/Wave'
+import { LoadingContainer, LoadingContent, LoadingText } from '@styles/Loading'
 
-const LoadingScreen = () => {
+const LoadingScreen = ({ children }) => {
 	return (
-		<Box display='flex' direction='column' align='center' justify='center'>
-			<WaveSpinner
-				size={50}
-				color='orange'
-				style={{ marginRight: '0.5rem' }}
-			/>
-			<Box>Loading...</Box>
-		</Box>
+		<LoadingContainer>
+			<LoadingContent>
+				<LoadingText>
+					<span>L</span>
+					<span>o</span>
+					<span>a</span>
+					<span>d</span>
+					<span>i</span>
+					<span>n</span>
+					<span>g</span>
+				</LoadingText>
+				<WaveSpinner
+					size={50}
+					color='#4c1d95'
+					style={{ marginRight: '0.5rem' }}
+				/>
+			</LoadingContent>
+		</LoadingContainer>
 	)
 }
 

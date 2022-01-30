@@ -72,6 +72,19 @@ export const fadeOut = keyframes`
   }
 `
 
+export const spreadDown = keyframes`
+  0%   { transform: translateY(0); opacity: .75;}
+  40%  { transform: translateY(400%); opacity: 1;}
+  60%  { transform: translateY(400%); opacity: 1}
+  100% { transform: translateY(0); opacity: 0.75}
+`
+
+export const flicker = keyframes`
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1;}
+`
+
 export const scaleUp = keyframes`
   0% {
     transform:scale(.8) translateY(1000px);

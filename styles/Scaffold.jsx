@@ -1,5 +1,6 @@
 import styled from 'styled-components'
-import * as include from '@styles/utilities'
+import * as include from '@styles/config/utilities'
+import { rgba } from 'polished'
 
 export const Scaffold = styled.div`
 	--size: 'Small Mobile: 0 - 374px';
@@ -75,8 +76,8 @@ export const Scaffold = styled.div`
 		bottom: ${include.sp[2.5]};
 		left: auto;
 		transform: translate(-50%);
-		color: ${include.alpha['00-a90']};
-		background-color: ${include.alpha['90-a70']};
+		color: ${rgba(include.colors.black, 0.9)};
+		background-color: ${rgba(include.colors.black, 0.7)};
 		padding: ${include.sp[0.5]} ${include.sp[1]};
 		${include.radius['sm']};
 	}

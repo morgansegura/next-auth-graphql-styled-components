@@ -7,13 +7,9 @@ import {
 } from '@urql/core'
 
 import { authExchange } from '@urql/exchange-auth'
+import useStorage from '@hooks/useStorage'
 
-import {
-	getRefreshToken,
-	getToken,
-	saveAuthData,
-	clearStorage
-} from '@lib/authStore'
+import { getRefreshToken } from '@lib/authStore'
 
 // const REFRESH_TOKEN_MUTATION = gql`
 // 	mutation RefreshCredentials($refreshToken: String!) {
@@ -25,6 +21,7 @@ import {
 // `
 
 let initialized = new Date().getTime()
+const { getItem, setItem, removeItem } = useStorage()
 const client = createClient({
 	url: 'http://localhost:3001/graphql',
 	exchanges: [
@@ -33,8 +30,8 @@ const client = createClient({
 		authExchange({
 			async getAuth({ authState, mutate }) {
 				if (!authState) {
-					const token = getToken()
-					const refreshToken = getRefreshToken()
+					const token = getItem('token')
+					const refreshToken = getItem('refreshToken')
 
 					if (token) {
 						return { token }
@@ -60,7 +57,7 @@ const client = createClient({
 				// }
 
 				// This is where auth has gone wrong and we need to clean up and redirect to a login page
-				clearStorage()
+				removeItem('token')
 				window.location.reload()
 
 				return null

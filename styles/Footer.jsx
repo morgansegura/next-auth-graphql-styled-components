@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import * as include from '@styles/utilities'
+import * as include from '@styles/config/utilities'
 import { rgba } from 'polished'
 
 export const Footer = styled.div`
-	background-color: ${rgba(include.neutral['90'], 0.045)};
+	background-color: ${rgba(include.colors.slate900, 0.045)};
 	margin-top: ${include.sp['3']};
 	margin-bottom: ${include.sp['2.5']};
 	${include.radius['md']};
@@ -38,7 +38,7 @@ export const Menu = styled.div`
 `
 export const Logo = styled.div`
 	${include.fontSizing('15px', '18px', '600')}
-	color: ${include.neutral['90']};
+	color: ${include.colors.slate900};
 `
 export const Nav = styled.nav`
 	display: flex;
@@ -48,7 +48,7 @@ export const Nav = styled.nav`
 `
 export const NavItem = styled.span`
 	${include.tag['bold']};
-	color: ${include.neutral['70']};
+	color: ${include.colors.slate700};
 
 	${({ active }) =>
 		active &&
@@ -59,5 +59,5 @@ export const NavItem = styled.span`
 
 export const FooterCopyright = styled.div`
 	${include.fontSizing('14px', '18px')}
-	color: ${include.neutral['60']}
+	color: ${include.colors.slate600}
 `

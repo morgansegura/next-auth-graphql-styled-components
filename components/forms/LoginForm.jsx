@@ -37,6 +37,7 @@ export const LoginForm = () => {
 			email: watch('email'),
 			password: watch('password')
 		}).then(({ data, error }) => {
+			console.log({ data }, { error })
 			if (error?.message) {
 				setErrorAction(error?.message)
 				if (errorAction) {

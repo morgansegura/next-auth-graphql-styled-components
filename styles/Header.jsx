@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import * as include from '@styles/utilities'
+import * as include from '@styles/config/utilities'
 
 export const Header = styled.div`
-	background-color: ${include.neutral['00']};
+	background-color: ${include.colors.white};
 	margin-top: ${include.sp['1.5']};
 	margin-bottom: ${include.sp['2.5']};
 	${include.radius['md']};
@@ -36,7 +36,7 @@ export const Menu = styled.div`
 `
 export const Logo = styled.div`
 	${include.fontSizing('20px', '22px', '600')}
-	color: ${include.neutral['90']};
+	color: ${include.colors.slate900};
 `
 export const Nav = styled.nav`
 	display: flex;
@@ -46,7 +46,7 @@ export const Nav = styled.nav`
 `
 export const NavItem = styled.span`
 	${include.tag['bold']};
-	color: ${include.neutral['70']};
+	color: ${include.colors.slate700};
 
 	${({ active }) =>
 		active &&

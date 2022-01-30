@@ -16,10 +16,12 @@ import { ActionMessage } from '@components/forms'
 // [Styles]
 import { AuthForm, FormTitle } from '@styles/Form'
 import { ButtonContainer } from '@styles/Button'
+import { LoadingScreen } from '../layouts'
 
 export const SignupForm = () => {
 	const [errorAction, setErrorAction] = React.useState(false)
 	const [successAction, setSuccessAction] = React.useState(false)
+	const [isLoading, setIsLoading] = React.useState(false)
 
 	const {
 		register,
@@ -39,8 +41,9 @@ export const SignupForm = () => {
 	const onSubmit = () => {
 		removeItem('token')
 
-		signup({ email: watch('email'), password: watch('password') }).then(
-			({ data, error }) => {
+		signup({ email: watch('email'), password: watch('password') })
+			.then(({ data, error, loading }) => {
+				console.log({ loading })
 				if (error?.message) {
 					setErrorAction(error?.message)
 					if (errorAction) {
@@ -50,9 +53,12 @@ export const SignupForm = () => {
 				if (data?.signup) {
 					setErrorAction(false)
 					setSuccessAction(true)
+					setIsLoading(true)
 				}
-			}
-		)
+			})
+			.finally(() => {
+				setIsLoading(false)
+			})
 	}
 
 	return (
@@ -99,6 +105,7 @@ export const SignupForm = () => {
 						: ''}
 				</>
 			)}
+			{!isLoading && <LoadingScreen label='Loading Account...' />}
 		</div>
 	)
 }
