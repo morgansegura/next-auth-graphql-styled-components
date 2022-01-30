@@ -15,7 +15,7 @@ import { useAuth } from '@lib/auth'
 import { AuthForm, FormTitle } from '@styles/Form'
 import { ButtonContainer } from '@styles/Button'
 
-export const LoginForm = () => {
+export const ProfileForm = () => {
 	const [errorAction, setErrorAction] = React.useState(false)
 	const [successAction, setSuccessAction] = React.useState(false)
 
@@ -89,4 +89,4 @@ export const LoginForm = () => {
 	)
 }
 
-export default LoginForm
+export default ProfileForm

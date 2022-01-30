@@ -3,15 +3,14 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import useStorage from '@hooks/useStorage'
 
-// [GraphQL]
-import { useMutation } from 'urql'
-import { SIGNUP_MUTATION } from '@graphql/mutations/authMutations'
-
 // [Components]
 import { Button } from '@components/core'
 import { TextInput } from '@components/inputs'
 import { ErrorMessage } from '@utils/helpers'
 import { ActionMessage } from '@components/forms'
+
+// Auth
+import { useAuth } from '@lib/auth'
 
 // [Styles]
 import { AuthForm, FormTitle } from '@styles/Form'
@@ -30,20 +29,18 @@ export const SignupForm = () => {
 		formState: { errors }
 	} = useForm()
 
+	const { signup } = useAuth()
+
 	const fireToast = message => {
 		toast(message)
 	}
 
 	const { removeItem } = useStorage()
 
-	const [data, signup] = useMutation(SIGNUP_MUTATION)
-
 	const onSubmit = () => {
-		removeItem('token')
-
+		setIsLoading(true)
 		signup({ email: watch('email'), password: watch('password') })
-			.then(({ data, error, loading }) => {
-				console.log({ loading })
+			.then(({ data, error }) => {
 				if (error?.message) {
 					setErrorAction(error?.message)
 					if (errorAction) {
@@ -53,7 +50,6 @@ export const SignupForm = () => {
 				if (data?.signup) {
 					setErrorAction(false)
 					setSuccessAction(true)
-					setIsLoading(true)
 				}
 			})
 			.finally(() => {
@@ -105,7 +101,7 @@ export const SignupForm = () => {
 						: ''}
 				</>
 			)}
-			{!isLoading && <LoadingScreen label='Loading Account...' />}
+			{isLoading && <LoadingScreen />}
 		</div>
 	)
 }

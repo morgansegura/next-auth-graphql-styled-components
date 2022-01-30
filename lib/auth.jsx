@@ -3,9 +3,11 @@ import { Provider } from 'urql'
 import client from '@lib/client'
 
 import useStorage from '@hooks/useStorage'
-import { LOGIN_MUTATION } from '@graphql/mutations/authMutations'
+import {
+	LOGIN_MUTATION,
+	SIGNUP_MUTATION
+} from '@graphql/mutations/authMutations'
 import { GET_CURRENT_USER_QUERY } from '@graphql/queries/authQueries'
-import { errors } from '@lib/messages'
 
 // import { ThemeConsumer } from 'styled-components'
 
@@ -59,27 +61,25 @@ function useProvideAuth(client) {
 		}
 	}
 
-	const login = async ({ email, password }) => {
-		let message = null
+	const signup = async ({ email, password }) => {
+		const { data, error } = await client
+			.mutation(SIGNUP_MUTATION, { email, password })
+			.toPromise()
 
+		return { data, error }
+	}
+
+	const login = async ({ email, password }) => {
 		const { data, error } = await client
 			.mutation(LOGIN_MUTATION, { email, password })
 			.toPromise()
 
-		if (error?.message) {
-			if (error?.message === '[GraphQL] Please validate your email!') {
-				message = errors.validateEmail
-			} else {
-				message = errors.undefinedError
-			}
+		if (data?.login?.token) {
+			setAuthToken(true)
+			setItem('token', data?.login?.token)
 		}
 
-		if (data?.login?.token) {
-			setAuthToken(data?.login?.token)
-			setItem('token', data?.login?.token)
-			message = 'You have succcesfully logged in!'
-		}
-		return message
+		return { data, error }
 	}
 
 	const logout = () => {
@@ -92,6 +92,7 @@ function useProvideAuth(client) {
 		isLoggedIn,
 		getCurrentUser,
 		login,
+		signup,
 		logout
 	}
 }

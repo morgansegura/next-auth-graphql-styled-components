@@ -1,18 +1,17 @@
 import React from 'react'
 // [Components]
-import { LoginForm, SignupForm, ActionMessage } from '@components/forms'
+import { LoginForm, SignupForm } from '@components/forms'
 import { Button, Box } from '@components/core'
-import { TiCogOutline } from 'react-icons/ti'
-
 // [Styles]
 import { FormAnnotation } from '@styles/Form'
 
-const Authorization = ({ form }) => {
+const Authorization = () => {
 	const [setForm, useSetForm] = React.useState(false)
 
 	const toggleForm = () => {
 		useSetForm(!setForm)
 	}
+
 	return (
 		<>
 			{setForm ? (
